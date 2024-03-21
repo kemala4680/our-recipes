@@ -27,6 +27,10 @@ const helper = {
     let minute = Math.floor(timeDiff / 1000 / 60);
     minute = String(minute).slice(1);
     return (+minute < 60)? `${+minute} minutes ago`: (Math.floor(+minute/60) < 24)? `${Math.floor(+minute/60)} hours ago`: `${Math.floor((+minute/60)/24)} days ago`
+  },
+
+  textLimiter: (input) => {
+    return (input.length >= 85)? input.slice(0,85): input;
   }
 }
 
