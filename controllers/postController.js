@@ -4,7 +4,7 @@ class PostController {
 
   static async generatePostList(req, res) {
     try {
-      
+      res.render("post/postList")
     } catch (error) {
       console.log(error);
       res.send(error.message);

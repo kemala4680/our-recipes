@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       },
       allowNull: false,
-      onDelete: cascade,
-      onUpdate: cascade
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
     },
     TagId: {
       type: DataTypes.INTEGER,
@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       },
       allowNull: false,
-      onDelete: cascade,
-      onUpdate: cascade
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
     }
   }, {
     sequelize,
