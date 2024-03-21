@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User } = require("../models");
 const bcrypt = require('bcryptjs');
 
 class UserController {
@@ -69,6 +69,33 @@ class UserController {
         res.redirect("/")
       }
     })
+  }
+
+  static async generateUser(req, res) {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async generateEditUser(req, res) {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async processEditUser(req, res) {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
   }
 }
 
