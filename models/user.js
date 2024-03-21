@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const {
   Model
 } = require('sequelize');
+const helper = require('../helpers');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -14,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Post);
       User.hasOne(models.UserDetail);
+    }
+
+    get created() {
+      return `This Account made ${helper.created(this.createdAt)}`
     }
   }
   User.init({
@@ -70,7 +75,13 @@ module.exports = (sequelize, DataTypes) => {
     user.password = bcrypt.hashSync(user.password, salt);
   })
   User.afterCreate(async (user) => {
-    await User.createUserDetail({})
-  })
+    await User.createUserDetail({
+      username: `Hello I'm New`, 
+      reputation: 0, 
+      profilePicture: `https://img.pikbest.com/png-images/20210821/cute-cat-chef-character-icon_6079120.png!sw800`,
+      description: '-',
+      UserId: user.id
+    });
+  });
   return User;
 };

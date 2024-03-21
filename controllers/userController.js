@@ -79,8 +79,7 @@ class UserController {
         where: id
       });
 
-      res.send(user)
-      // res.render("user/userDetail", {user});
+      res.render("user/userDetail", {user});
     } catch (error) {
       console.log(error);
       res.send(error.message);
@@ -89,7 +88,10 @@ class UserController {
 
   static async generateEditUser(req, res) {
     try {
-      
+      const {id} = req.params;
+      const user = await UserDetail.findByPk(+id);
+
+      res.render("user/userEdit", {user});
     } catch (error) {
       console.log(error);
       res.send(error.message);
@@ -97,8 +99,31 @@ class UserController {
   }
 
   static async processEditUser(req, res) {
+    const {username, profilePicture, dateOfBirth, description} = req.body;
     try {
-      
+      const {id} = req.params;
+
+      await UserDetail.update({username, profilePicture, dateOfBirth, description},{
+        where: id
+      });
+      res.redirect("/user");
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async generateDeleteUser(req, res) {
+    try {
+      const {id} = req.params;
+      const user = await UserDetail.findOne({where: id});
+
+      await User.destroy({
+        where: {
+          id: user.UserId
+        }
+      });
+      res.redirect("/posts");
     } catch (error) {
       console.log(error);
       res.send(error.message);
