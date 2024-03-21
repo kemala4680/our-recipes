@@ -7,8 +7,8 @@ route.post("/add", PostController.processAddPost);
 
 
 
-route.get("/edit", PostController.generateEditPost);
-route.post("/edit", PostController.processEditPost);
-route.get("/delete", PostController.generateDeletePost);
+route.get("/edit/:id", PostController.generateEditPost);
+route.post("/edit/:id", PostController.processEditPost);
+route.get("/delete/:id", PostController.generateDeletePost);
 
 module.exports = route;

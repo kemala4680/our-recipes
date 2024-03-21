@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const helper = require('../helpers');
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
     /**
@@ -13,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       Tag.belongsToMany(models.Post, {through: models.PostTag});
       Tag.hasMany(models.PostTag);
     }
+
+    get descLimiter() {
+      return helper.textLimiter(this.description) + ' . . .';
+    }
   }
   Tag.init({
     name: DataTypes.STRING,
@@ -22,5 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Tag',
   });
+  Tag.beforeCreate((tag) => {
+    tag.vote = 0;
+  })
   return Tag;
 };
