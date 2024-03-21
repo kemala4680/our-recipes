@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const user = require('./user');
+const helper = require('../helpers');
 module.exports = (sequelize, DataTypes) => {
   class UserDetail extends Model {
     /**
@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       UserDetail.belongsTo(models.User);
+    }
+
+    get dateForm() {
+      return helper.dateFormInput(this.dateOfBirth);
+    }
+
+    get dateTemplate() {
+      return helper.dateTemplate(this.dateOfBirth);
     }
   }
   UserDetail.init({
