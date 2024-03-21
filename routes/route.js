@@ -12,12 +12,12 @@ route.post("/register", UserController.processRegister);
 route.get("/login", UserController.generateLogin);
 route.post("/login", UserController.processLogin);
 
-route.use(middleware.loginVerivier);
+// route.use(middleware.loginVerivier);
 
 route.get("/logout", UserController.processLogout);
 
 route.use("/user", routeUser);
 route.use("/posts", routePost);
-route.use("/tag", routeTag);
+route.use("/tags", routeTag);
 
 module.exports = route;

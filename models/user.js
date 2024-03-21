@@ -69,5 +69,8 @@ module.exports = (sequelize, DataTypes) => {
     const salt = bcrypt.genSaltSync(8);
     user.password = bcrypt.hashSync(user.password, salt);
   })
+  User.afterCreate(async (user) => {
+    await User.createUserDetail({})
+  })
   return User;
 };

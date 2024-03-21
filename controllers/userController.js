@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, UserDetail } = require("../models");
 const bcrypt = require('bcryptjs');
 
 class UserController {
@@ -16,7 +16,7 @@ class UserController {
     const {email, password, role} = req.body;
     try {
       await User.create({email, password, role});
-      res.redirect("/");
+      res.redirect("/login");
     } catch (error) {
       if (error.name == 'SequelizeValidationError') {
         res.redirect(`/register?error=${error.errors.map((el) => el.message).join(', ')}`)
@@ -53,7 +53,7 @@ class UserController {
       req.session.userId = user.id;
       req.session.userRole = user.role;
 
-      res.redirect("/");
+      res.redirect("/posts");
     } catch (error) {
       console.log(error);
       res.send(error.message);
@@ -73,7 +73,14 @@ class UserController {
 
   static async generateUser(req, res) {
     try {
-      
+      const id = req.session.userId;
+      const user = await User.findOne({
+        include: UserDetail,
+        where: id
+      });
+
+      res.send(user)
+      // res.render("user/userDetail", {user});
     } catch (error) {
       console.log(error);
       res.send(error.message);
