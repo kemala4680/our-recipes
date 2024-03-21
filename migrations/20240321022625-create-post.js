@@ -22,7 +22,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        allowNull: false,
+        onDelete: cascade,
+        onUpdate: cascade
       },
       createdAt: {
         allowNull: false,

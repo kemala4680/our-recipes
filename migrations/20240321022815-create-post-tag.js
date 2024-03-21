@@ -10,10 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       PostId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Posts',
+          key: 'id'
+        },
+        allowNull: false,
+        onDelete: cascade,
+        onUpdate: cascade
       },
       TagId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tag',
+          key: 'id'
+        },
+        allowNull: false,
+        onDelete: cascade,
+        onUpdate: cascade
       },
       createdAt: {
         allowNull: false,
