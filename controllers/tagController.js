@@ -1,10 +1,15 @@
 const { Tag, Post } = require("../models");
+const { Op } = require("sequelize");
 
 class TagController {
 
   static async generateTagList(req, res) {
     try {
-      const tags = await Tag.findAll();
+      const {search} = req.query;
+      const condition = (search)? {name:{[Op.iLike]:`%${search}%`}}: {};
+      const tags = await Tag.findAll({
+        where: condition
+      });
 
       res.render("tag/tagList", {tags})
     } catch (error) {

@@ -1,4 +1,4 @@
-const { User, UserDetail } = require("../models");
+const { User, UserDetail, Post, Tag, PostTag } = require("../models");
 const bcrypt = require('bcryptjs');
 
 class UserController {
@@ -76,7 +76,7 @@ class UserController {
       const id = req.session.userId;
       const user = await User.findOne({
         include: UserDetail,
-        where: id
+        where: {id}
       });
 
       res.render("user/userDetail", {user});
@@ -104,7 +104,7 @@ class UserController {
       const {id} = req.params;
 
       await UserDetail.update({username, profilePicture, dateOfBirth, description},{
-        where: id
+        where: {id}
       });
       res.redirect("/user");
     } catch (error) {
@@ -116,14 +116,60 @@ class UserController {
   static async generateDeleteUser(req, res) {
     try {
       const {id} = req.params;
-      const user = await UserDetail.findOne({where: id});
+      const user = await UserDetail.findOne({
+        include: User,
+        where: {id}
+      });
+
+      const message = `${user.username} with email ${user.User.email} has been deleted`
 
       await User.destroy({
         where: {
           id: user.UserId
         }
       });
-      res.redirect("/posts");
+      res.redirect(`/?message=${message}`);
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async generateDetail(req, res) {
+    try {
+      const {id} = req.params;
+      const user = await User.findOne({
+        include: Post,
+        where: {id}
+      });
+
+      res.render("user/userPost", {user})
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async generateTag(req, res) {
+    try {
+      const {postid} = req.params;
+
+      const tags = await Tag.findAll();
+
+      res.render("user/userPostTag", {tags, postid})
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+
+  static async processTag(req, res) {
+    try {
+      const {postid, tagid} = req.params;
+
+      await PostTag.create({PostId: postid, TagId: tagid});
+
+      res.redirect(`/user/tagging/${postid}`);
     } catch (error) {
       console.log(error);
       res.send(error.message);

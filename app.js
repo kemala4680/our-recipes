@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 9876;
-const session = require('express-session');
 const routes = require("./routes/route");
+const session = require('express-session');
+
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
