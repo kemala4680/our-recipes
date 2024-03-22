@@ -1,3 +1,4 @@
+
 const middleware = {
 
   loginVerivier: (req,res,next) => {
@@ -13,8 +14,7 @@ const middleware = {
       return res.redirect(`/`)
     }
     next()
-  },
-
+  }
 }
 
 module.exports = middleware;

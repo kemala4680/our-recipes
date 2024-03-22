@@ -75,9 +75,10 @@ module.exports = (sequelize, DataTypes) => {
     user.password = bcrypt.hashSync(user.password, salt);
   })
   User.afterCreate(async (user) => {
-    await User.createUserDetail({
+    await sequelize.models.UserDetail.create({
       username: `Hello I'm New`, 
       reputation: 0, 
+      dateOfBirth: new Date(),
       profilePicture: `https://img.pikbest.com/png-images/20210821/cute-cat-chef-character-icon_6079120.png!sw800`,
       description: '-',
       UserId: user.id

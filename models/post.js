@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const helper = require('../helpers');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -13,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.User);
       Post.belongsToMany(models.Tag, {through: models.PostTag});
       Post.hasMany(models.PostTag);
+    }
+
+    get created() {
+      return helper.created(this.createdAt);
     }
   }
   Post.init({
@@ -34,5 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Post',
   });
+  Post.beforeCreate((post) => {
+    post.vote = 0;
+  })
   return Post;
 };
